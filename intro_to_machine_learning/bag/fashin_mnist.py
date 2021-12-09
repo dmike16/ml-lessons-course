@@ -10,7 +10,7 @@
 # -----------------------------------------------------------
 
 """
-Module containing utility class to prepare plot, tain and validate the MNIST
+Module containing utility class to prepare plot, train and validate the MNIST
 fashion ML problem
 """
 
