@@ -1,3 +1,7 @@
+"""
+Package that collect all the model study during tensorflow courses
+"""
+
 import tensorflow as tf
 import tensorflow_datasets as tfds
 import logging
