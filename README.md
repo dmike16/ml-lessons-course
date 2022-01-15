@@ -67,5 +67,5 @@ Distributed under the MIT License. See `LICENSE.txt` for more information.
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 [license-shield]: https://img.shields.io/github/license/dmike16/ml-lessons-course.svg?style=for-the-badge
-[license-url]: https://github.com/dmike16/ml-lessons-course/blob/main/LICENSE.txt
+[license-url]: https://github.com/dmike16/ml-lessons-course/blob/main/LICENSE
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
