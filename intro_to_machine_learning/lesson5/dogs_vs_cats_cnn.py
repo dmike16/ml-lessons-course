@@ -42,24 +42,26 @@ model = tf.keras.models.Sequential([
     tf.keras.layers.Conv2D(128, (3, 3), activation=tf.nn.relu, ),
     tf.keras.layers.MaxPooling2D(2, 2),
 
+    tf.keras.layers.Dropout(0.5),
     tf.keras.layers.Flatten(),
     tf.keras.layers.Dense(512, activation=tf.nn.relu, ),
-    tf.keras.layers.Dense(2)
+    tf.keras.layers.Dense(2, activation=tf.nn.softmax, )  # inestead we could use a Dense(1, actiovation=tf.nn.sigmoid)
 ])
 
 model.compile(
     optimizer=tf.keras.optimizers.Adam(0.001),
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+    # in case we use a sigmoid function we have to replace with binary_crossentrpy
     metrics=[tf.keras.metrics.SparseCategoricalAccuracy()]
 )
 
 model.summary()
 
 # train the model
-EPOCH = 30
+EPOCH = 15
 total_cat_train, total_cat_val = dogs_vs_cats.cats_samples()
 total_dog_train, total_dog_val = dogs_vs_cats.dogs_samples()
-history = model.fit_generator(
+history = model.fit(
     train_data_gen,
     steps_per_epoch=int(np.ceil((total_cat_train + total_dog_train) / float(BATCH_SIZE))),
     epochs=EPOCH,

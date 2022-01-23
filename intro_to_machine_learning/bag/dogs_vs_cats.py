@@ -76,7 +76,13 @@ class DogVSCat:
     def train_image_generator_flow(self, batch_size: int, target_size: int) -> preprocessing.image.DirectoryIterator:
         return DogVSCat._image_genrator_flow(batch_size=batch_size,
                                              target_size=target_size,
-                                             directory=self._train_dir)
+                                             directory=self._train_dir,
+                                             horizontal_flip=True,
+                                             shear_range=0.2,
+                                             width_rang=0.2,
+                                             zoom_range=0.2,
+                                             heigth_range=0.2,
+                                             rotation_range=40)
 
     def validation_image_generator_flow(self, batch_size: int, target_size: int):
         return DogVSCat._image_genrator_flow(batch_size=batch_size, target_size=target_size,
@@ -104,9 +110,21 @@ class DogVSCat:
 
     @staticmethod
     def _image_genrator_flow(batch_size: int, target_size: int,
-                             directory: str) -> preprocessing.image.DirectoryIterator:
+                             directory: str,
+                             horizontal_flip: bool = False,
+                             rotation_range: int = 0,
+                             zoom_range: float = 0.0,
+                             shear_range: float = 0.0,
+                             width_rang: float = 0.0,
+                             heigth_range: float = 0.0) -> preprocessing.image.DirectoryIterator:
         return preprocessing.image \
-            .ImageDataGenerator(rescale=1. / 255) \
+            .ImageDataGenerator(rescale=1. / 255,
+                                horizontal_flip=horizontal_flip,
+                                rotation_range=rotation_range,
+                                zoom_range=zoom_range,
+                                shear_range=shear_range,
+                                width_shift_range=width_rang,
+                                height_shift_range=heigth_range) \
             .flow_from_directory(directory=directory,
                                  batch_size=batch_size,
                                  shuffle=True,
