@@ -16,7 +16,10 @@ data set
 import os
 import glob
 import shutil
+import numpy as np
+import matplotlib.pyplot as plt
 from tensorflow import keras
+from tensorflow.keras import preprocessing
 from typing import List, Tuple
 
 _URL = "https://storage.googleapis.com/download.tensorflow.org/example_images/flower_photos.tgz"
@@ -99,6 +102,53 @@ class Flower:
 
         return num_tr, num_vl
 
+    def train_image_generator_flow(self, batch_size: int, target_size: int) -> preprocessing.image.DirectoryIterator:
+        return Flower._image_genrator_flow(batch_size=batch_size,
+                                           target_size=target_size,
+                                           directory=self._train_dir,
+                                           horizontal_flip=True,
+                                           shear_range=0.15,
+                                           width_rang=0.15,
+                                           zoom_range=0.5,
+                                           heigth_range=0.15,
+                                           rotation_range=45)
+
+    def validation_image_generator_flow(self, batch_size: int, target_size: int):
+        return Flower._image_genrator_flow(batch_size=batch_size, target_size=target_size,
+                                           directory=self._val_dir)
+
+    @staticmethod
+    def plots_images(images_arr: np.array):
+        fig, axes = plt.subplots(1, len(images_arr), figsize=(20, 20))
+        axes = axes.flatten()
+        for img, ax in zip(images_arr, axes):
+            ax.imshow(img)
+        plt.tight_layout()
+        plt.show()
+
+    @staticmethod
+    def _image_genrator_flow(batch_size: int, target_size: int,
+                             directory: str,
+                             horizontal_flip: bool = False,
+                             rotation_range: int = 0,
+                             zoom_range: float = 0.0,
+                             shear_range: float = 0.0,
+                             width_rang: float = 0.0,
+                             heigth_range: float = 0.0) -> preprocessing.image.DirectoryIterator:
+        return preprocessing.image \
+            .ImageDataGenerator(rescale=1. / 255,
+                                horizontal_flip=horizontal_flip,
+                                rotation_range=rotation_range,
+                                zoom_range=zoom_range,
+                                shear_range=shear_range,
+                                width_shift_range=width_rang,
+                                height_shift_range=heigth_range) \
+            .flow_from_directory(directory=directory,
+                                 batch_size=batch_size,
+                                 shuffle=True,
+                                 target_size=(target_size, target_size),
+                                 class_mode='sparse')
+
 
 def _split_train_validation_set(base_path: str, labels: List[str]):
     for cl in labels:
@@ -108,9 +158,13 @@ def _split_train_validation_set(base_path: str, labels: List[str]):
         if not os.path.exists(os.path.join(base_path, 'train', cl)):
             os.makedirs((os.path.join(base_path, 'train', cl)))
         for t in train:
+            if os.path.exists(os.path.join(base_path, 'train', cl, t)):
+                continue
             shutil.move(t, os.path.join(base_path, 'train', cl))
 
         if not os.path.exists(os.path.join(base_path, 'val', cl)):
             os.makedirs((os.path.join(base_path, 'val', cl)))
         for v in val:
+            if os.path.exists(os.path.join(base_path, 'train', cl, v)):
+                continue
             shutil.move(v, os.path.join(base_path, 'val', cl))
