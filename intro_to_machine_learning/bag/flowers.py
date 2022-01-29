@@ -107,7 +107,6 @@ class Flower:
                                            target_size=target_size,
                                            directory=self._train_dir,
                                            horizontal_flip=True,
-                                           shear_range=0.15,
                                            width_rang=0.15,
                                            zoom_range=0.5,
                                            heigth_range=0.15,
