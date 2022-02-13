@@ -10,10 +10,11 @@
 # email cipmiky@gmail.com
 # -----------------------------------------------------------
 
-import bag.dogs_vs_cats as bdc
-import tensorflow as tf
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
+
+import bag.dogs_vs_cats as bdc
 
 # load the dataset
 dogs_vs_cats = bdc.DogVSCat()
@@ -32,8 +33,10 @@ val_data_gen = dogs_vs_cats.validation_image_generator_flow(BATCH_SIZE, IMG_SIZE
 # bdc.DogVSCat.plots_images(sample_taining_image[:5])
 
 # model creation
+input_layer = tf.keras.Input(shape=(IMG_SIZE, IMG_SIZE, 3))
 model = tf.keras.models.Sequential([
-    tf.keras.layers.Conv2D(32, (3, 3), activation=tf.nn.relu, input_shape=(IMG_SIZE, IMG_SIZE, 3)),
+    input_layer,
+    tf.keras.layers.Conv2D(32, (3, 3), activation=tf.nn.relu),
     tf.keras.layers.MaxPooling2D(2, 2),
 
     tf.keras.layers.Conv2D(64, (3, 3), activation=tf.nn.relu, ),
