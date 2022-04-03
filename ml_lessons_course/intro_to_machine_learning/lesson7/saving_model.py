@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# Exampaple of saving and loading tensorflow keras model
+# Exampaple of saving tensorflow keras model
 #
 #
 # The model is created usgin tensorflow + tensorflow_dataset  keras + numpy
@@ -67,9 +67,12 @@ print("Label predicted ", pred_ids)
 
 curr_dir = os.getcwd()
 # Save the model in HDF5 keras model
-export_keras_path = "{}/model_dog_cat.h5".format(curr_dir)
+export_keras_path = "{}/ml_lessons_course/intro_to_machine_learning/lesson7/model_dog_cat.h5".format(curr_dir)
 model.save(export_keras_path)
 
 # Export as a saved model a tensorflow  object
-export_tensorflow_path = "{}/model_dog_cat".format(curr_dir)
+export_tensorflow_path = "{}/ml_lessons_course/intro_to_machine_learning/lesson7/model_dog_cat".format(curr_dir)
+# To load the saved module as a keras module we need to clone to unde the .compile action
+# due to a bug in the keras api
+# model = tf.keras.models.clone_model(model)
 tf.saved_model.save(model, export_tensorflow_path)
