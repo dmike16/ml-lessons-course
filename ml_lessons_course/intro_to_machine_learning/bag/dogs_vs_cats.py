@@ -15,9 +15,10 @@ data set
 """
 
 import os
-import numpy as np
-import matplotlib.pyplot as plt
 from typing import Tuple
+
+import matplotlib.pyplot as plt
+import numpy as np
 from tensorflow import keras
 from tensorflow.keras import preprocessing
 
@@ -33,6 +34,10 @@ class DogVSCat:
             ax.imshow(img)
         plt.tight_layout()
         plt.show()
+
+    @staticmethod
+    def labels() -> np.array:
+        return np.array(["cat", "dog"])
 
     def __init__(self):
         self._dir_path = keras.utils.get_file('cats_and_dogs_filterted.zip', origin=_URL, extract=True)
